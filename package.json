@@ -1,0 +1,22 @@
+{
+  "name": "presentations-morlack",
+  "version": "1.0.0",
+  "description": "Presentations given by Mitchell Herrijgers on several occasions",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Morlack/presentations.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Morlack/presentations/issues"
+  },
+  "homepage": "https://github.com/Morlack/presentations#readme",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  }
+}
