@@ -8,3 +8,5 @@ We want to visit the following subjects:
 
 - Testability of Webcomponents
 - Shadow DOM internals
+
+Since Shadow DOM encapsulation breaks test tools, we want to re-enable them

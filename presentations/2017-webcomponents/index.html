@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>DynamoDB in Gareth</title>
+    <title>Webcomponents - E2E-testing the Shadow DOM</title>
 
     <meta name="description" content="Title - Sub Title">
     <meta name="author" content="Your Name">
@@ -27,7 +27,7 @@
         var link = document.createElement('link');
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../../common/reveal.js/css/print/pdf.css' : '../../common/reveal.js/css/print/paper.css';
         document.getElementsByTagName('head')[0].appendChild(link);
     </script>
 
@@ -59,24 +59,7 @@
         <section data-markdown="01_introduction.md" data-separator-notes="^Note:" data-background="../../common/img/background-green-16x9.png"></section>
         <section data-markdown="02_goal.md" data-separator-notes="^Note:" data-background="../../common/img/background-orange-orig.jpg"></section>
         <section data-markdown="03_contents.md" data-separator-notes="^Note:" data-background="../../common/img/background-violet-orig.jpg"></section>
-        <section>
-            <section data-markdown="03_why.md" data-background="../../common/img/background-orange-orig.jpg"
-                     data-separator="---">
-            </section>
-        </section>
-
-        <section>
-            <section data-markdown="04_how.md" data-background="../../common/img/background-violet-orig.jpg"
-                     data-separator="---"></section>
-        </section>
-        <section>
-            <section data-markdown="05_end_product.md" data-background="../../common/img/background-green-16x9.png"
-                     data-separator="---"></section>
-        </section>
-        <section>
-            <section data-markdown="06_wrap_up.md" data-background="../../common/img/background-violet-orig.jpg"
-                     data-separator="---"></section>
-        </section>
+        <section data-markdown="04_e2e-testing.md" data-background="../../common/img/background-orange-orig.jpg" data-separator="---" data-separator-notes="^Note:"></section>
     </div>
 
 </div>
