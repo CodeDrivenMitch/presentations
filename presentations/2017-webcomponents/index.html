@@ -215,12 +215,136 @@ my-awesome-element {
         </section>
 
 
-        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---"
-                 data-markdown="">
+        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown="" data-separator-notes="^Note:">
             # Wdio-webcomponents
 
-            > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with Open Shadow Roots.
+            > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with open Shadow Roots.
+
+            ---
+            # Broken e2e tests
+
+            The upgrade to Polymer 2 broke our E2E-tests completely
+
+            wdio-webcomponents is my own solution
+
+            Note:
+            Bla
+
+            ---
+            # The problem
+
+            Selenium uses querySelector to find an element; Shadow DOMs prevent this
+
+            ```
+            document.querySelector('my-awesome-element .shadow');
+            ```
+            Above will not work, what is needed is:
+            ```
+            document.querySelector('my-awesome-element')
+                    .shadowRoot.querySelector('.shadow');
+            ```
+
+            ---
+            # The solution
+
+            Webdriver io plugin which:
+            - Overrides element and elements commands
+            - Uses a javascript function in the browser
+            - Use this for further operations
+
+
+            Webdriverio (almost) completely like you're used to!
+
+            ---
+            # Pitfalls
+
+            Some selectors may have to be rewritten:
+
+            Light DOM actually belong to the element defining them, not the element in which it is slotted
         </section>
+
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <pre><code class="html" data-trim>
+<my-awesome-element>
+    #shadow-root
+        <my-awesome-nested-element>
+            #shadow-root
+                <p class="shadow">**Shadow DOM element**</p>
+                <slot></slot>
+            <!-- End nested shadow root -->
+
+            <p class="nested-light">light DOM element!</p>
+        </my-awesome-nested-element>
+    <!-- End top-level shadow root -->
+    <p class="light">This is a light DOM element!</p>
+</my-awesome-element>
+            </code></pre>
+            Shadow dom element:
+            <br/>
+            my-awesome-element my-awesome-nested-element .shadow
+        </section>
+
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <pre><code class="html" data-trim>
+<my-awesome-element>
+    #shadow-root
+        <my-awesome-nested-element>
+            #shadow-root
+                <p class="shadow">Shadow DOM element</p>
+                <slot></slot>
+            <!-- End nested shadow root -->
+
+            <p class="nested-light">light DOM element!</p>
+        </my-awesome-nested-element>
+    <!-- End top-level shadow root -->
+    <p class="light">**This is a light DOM element!**</p>
+</my-awesome-element>
+            </code></pre>
+            Non-nested light DOM element:
+            <br/>
+            .shadow
+        </section>
+
+
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <pre><code class="html" data-trim>
+<my-awesome-element>
+    #shadow-root
+        <my-awesome-nested-element>
+            #shadow-root
+                <p class="shadow">Shadow DOM element</p>
+                <slot></slot>
+            <!-- End nested shadow root -->
+
+            <p class="nested-light">**light DOM element**</p>
+        </my-awesome-nested-element>
+    <!-- End top-level shadow root -->
+    <p class="light">This is a light DOM element!</p>
+</my-awesome-element>
+            </code></pre>
+            Nested Light DOM element:
+            <br/>
+            my-awesome-element .shadow
+        </section>
+
+
+
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Link
+            wdio webcomponents can be found on NPM and Github:
+
+            https://www.npmjs.com/package/wdio-webcomponents
+
+            https://github.com/Morlack/wdio-webcomponents
+        </section>
+
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Questions?
+
+        </section>
+
     </div>
 </div>
 
