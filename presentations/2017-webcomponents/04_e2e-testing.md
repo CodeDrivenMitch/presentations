@@ -5,7 +5,15 @@
 ---
 # Confusion
 
-Acceptance tests are often confused with E2E-tests. 
+Acceptance Testing is often confused with End-to-End Testing
+
+Acceptance Testing (or User Acceptance Testing) is a **phase** in the testing process
+
+E2E-Testing is a **means** to verify application behavior during Acceptance Test phase
+
+Note:
+When talking about testing Acceptance tests and E2E tests are often confused and spoken about as the same thing. This is not the case. 
+Acceptance testing is a phase in the testing process, also called User Acceptance Testing. 
 
 --- 
 # Proportions

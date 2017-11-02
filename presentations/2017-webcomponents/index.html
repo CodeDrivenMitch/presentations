@@ -6,8 +6,8 @@
 
     <title>Webcomponents - E2E-testing the Shadow DOM</title>
 
-    <meta name="description" content="Title - Sub Title">
-    <meta name="author" content="Your Name">
+    <meta name="description" content="Webcomponents - E2E-testing the Shadow DOM">
+    <meta name="author" content="Mitchell Herrijgers">
 
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -34,6 +34,9 @@
     <!--[if lt IE 9]>
     <script src="../../common/reveal.js/lib/js/html5shiv.js"></script>
     <![endif]-->
+
+    <style>
+    </style>
 </head>
 
 <body>
@@ -56,12 +59,169 @@
             </script>
         </section>
 
-        <section data-markdown="01_introduction.md" data-separator-notes="^Note:" data-background="../../common/img/background-green-16x9.png"></section>
-        <section data-markdown="02_goal.md" data-separator-notes="^Note:" data-background="../../common/img/background-orange-orig.jpg"></section>
-        <section data-markdown="03_contents.md" data-separator-notes="^Note:" data-background="../../common/img/background-violet-orig.jpg"></section>
-        <section data-markdown="04_e2e-testing.md" data-background="../../common/img/background-orange-orig.jpg" data-separator="---" data-separator-notes="^Note:"></section>
-    </div>
+        <section data-markdown="01_introduction.md" data-separator-notes="^Note:"
+                 data-background="../../common/img/background-green-16x9.png"></section>
+        <section data-markdown="02_goal.md" data-separator-notes="^Note:"
+                 data-background="../../common/img/background-orange-orig.jpg"></section>
+        <section data-markdown="03_contents.md" data-separator-notes="^Note:"
+                 data-background="../../common/img/background-violet-orig.jpg"></section>
+        <section data-markdown="04_e2e-testing.md" data-background="../../common/img/background-orange-orig.jpg"
+                 data-separator="---" data-separator-notes="^Note:"></section>
+        <!-- TODO: Externalize next slides -->
+        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---"
+                 data-markdown="">
+            # Webcomponents and Polymer
 
+            > Web components are a set of web platform APIs that allow you to create new custom, reusable, encapsulated
+            HTML tags to use in web pages and web apps.
+        </section>
+
+        <!-- BEGIN Slide vanilla -->
+        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---">
+            <h1>Vanilla Element</h1>
+            <pre><code data-trim="">
+<template id="awesome">
+  <style>
+    /* Styles here */
+  </style>
+  <h2>Hello!</h2>
+</template>
+<script>
+    const template = doc.querySelector('template#awesome');
+    class AwesomeElement extends HTMLElement {
+        // Code here
+    }
+    customElements.define('awesome-element', AwesomeElement);
+</script>
+</code></pre>
+        </section>
+        <!-- END Slide vanilla -->
+
+
+        <!-- BEGIN Slide Polymer -->
+        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---">
+            <h1>Polymer Element</h1>
+            <pre><code data-trim="">
+<dom-module id="awesome">
+    <template>
+      <h2>Hello!</h2>
+    </template>
+    <script>
+    class AwesomeElement extends Polymer.Element {
+        static get is() {
+            return 'awesome-element'
+        }
+        // Code here
+    }
+    customElements.define(AwesomeElement.is, AwesomeElement);
+    </script>
+</dom-module>
+
+
+</code></pre>
+        </section>
+        <!-- END Slide Polymer -->
+
+        <section data-markdown="" data-background="../../common/img/background-lightgreen-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Polymer sugar
+
+            - `dom-module`, `dom-repeat`, `dom-if`, `dom-bind` and `custom-style`
+            - PRPL pattern / Vulcanization
+            - Data binding
+            - Low-level Mixins
+            - Utilities such as `resolveUrl`
+            - Shadow DOM by default
+        </section>
+
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Shadow DOM
+
+            > Shadow DOM removes the brittleness of building web apps. [...] Shadow DOM fixes CSS and DOM. It introduces
+            scoped styles to the web platform.
+        </section>
+
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Shadow DOM
+
+            Separates the DOM of a Custom Element from the main document or other elements
+
+            It was first used by browsers internally, for example in video players
+
+            Because of the separation, styles do not leak
+
+        </section>
+
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Interaction
+
+            Encapsulation makes sure interaction with your element is done in two possible ways:
+            - Light DOM
+            - Style mixins and variables
+            - Javascript
+
+            Note:
+            We won't go deep into Javascript
+        </section>
+
+
+        <section data-background="../../common/img/background-violet-orig.jpg">
+            <h1>Light DOM</h1>
+            <p>With light DOM you can add customization where the author intended it</p>
+            <pre><code data-trim>
+<awesome-element>
+    <span slot="title">Hello</span>
+    <div slot="body">This is a news article</div>
+</awesome-element>
+            </code></pre>
+            <pre><code data-trim>
+<template>
+    <h1><slot name="title"></slot></h1>
+    <div class="toolbar">
+        <!-- A nice, custom toolbar in the custom element -->
+    </div>
+    <div id="main_content">
+        <slot name="body"></slot>
+    </div>
+</template>
+            </code></pre>
+
+            <aside class="notes">
+                Light DOM are elements you can insert into a custom component's slot. These elements are styles however
+                you see fit, and are a great way to extend a custom component.
+            </aside>
+        </section>
+
+        <section data-background="../../common/img/background-violet-orig.jpg">
+            <h1>Style</h1>
+            <p>With style mixins and variables you can extend or modify the element's style</p>
+            <pre><code data-trim>
+my-awesome-element {
+    --header-color: #FFFFF;
+    --header-mixin: {
+        text-align: center;
+    }
+}
+            </code></pre>
+            <pre><code data-trim>
+.header {
+    color: var(--header-color);
+    @apply --header-mixin;
+}
+            </code></pre>
+        </section>
+
+
+        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---"
+                 data-markdown="">
+            # Wdio-webcomponents
+
+            > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with Open Shadow Roots.
+        </section>
+    </div>
 </div>
 
 <script src="../../common/reveal.js/lib/js/head.min.js"></script>
