@@ -1,8 +1,3 @@
-# E2E testing
-
-> End-to-end testing is a methodology used to test whether the flow of an application is performing as designed from start to finish. The purpose of carrying out end-to-end tests is to identify system dependencies and to ensure that the right information is passed between various system components and systems.
-
----
 # Confusion
 
 Acceptance Testing is often confused with End-to-End Testing
