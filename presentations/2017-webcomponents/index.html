@@ -65,85 +65,81 @@
                  data-background="../../common/img/background-orange-orig.jpg"></section>
         <section data-markdown="03_contents.md" data-separator-notes="^Note:"
                  data-background="../../common/img/background-violet-orig.jpg"></section>
-        <section data-markdown  data-background="../../common/img/background-orange-orig.jpg">
+        <section data-markdown data-background="../../common/img/background-orange-orig.jpg"
+                 data-separator-notes="^Note:">
             # E2E testing
 
-            > End-to-end testing is a methodology used to test whether the flow of an application is performing as designed from start to finish.
-        </section>
-        <section data-background="../../common/img/background-orange-orig.jpg">+
+            > End-to-end testing is a methodology used to test whether the flow of an application is performing as
+            designed from start to finish.
 
+            Note:
+            So we all have some basic understanding of the subject before going further, I would like to talk about E2E testing.
+            End-to-End testing is a method to test whether the flow of an application is performing as designed from start to finish.
+
+            We use it to verify the behavior of an application in the wild. Generally, this 'wild' is an environment whether the application, it's infrastructure and dependencies
+            are as much like the production environment as possible.
+
+            We do this to prevent errors that occur when all parts come together and don't fit correctly...
+        </section>
+        <section data-background="../../common/img/background-orange-orig.jpg">
             <video src="img/integration_tests.mp4" autoplay loop></video>
             <aside class="notes">
-
+                ... like in this small video. We see a door locked with a pretty nice lock. The unit tests of this lock
+                succeed with flying colors, as it locks like it has been designed to do.
+                However, it does not fit nicely with a sliding door! The lock has been wrongly designed for this particular door.
             </aside>
         </section>
-        <section data-markdown="04_e2e-testing.md" data-background="../../common/img/background-orange-orig.jpg"
-                 data-separator="---" data-separator-notes="^Note:"></section>
-        <!-- TODO: Externalize next slides -->
-        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---"
-                 data-markdown="">
-            # Webcomponents and Polymer
+        <section data-markdown data-background="../../common/img/background-orange-orig.jpg"
+                 data-separator="---" data-separator-notes="^Note:">
+            # Tooling
 
-            > Web components are a set of web platform APIs that allow you to create new custom, reusable, encapsulated
-            HTML tags to use in web pages and web apps.
+            ![Selenium logo](img/selenium-logo.png)
+
+            Selenium dominates open-source market for E2E-testing
+
+            Wrappers such as _webdriver.io_ are high-level libraries that use Selenium
+
+            Note:
+            So what do we use to E2E-test web applications? Often it is Selenium. There are lots of libraries built on top if it to
+            add functionality to use it more easily, such as WebDriver.io in the Javascript world.
         </section>
 
-        <!-- BEGIN Slide vanilla -->
-        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---">
-            <h1>Vanilla Element</h1>
-            <pre><code data-trim="">
-<template id="awesome">
-  <style>
-    /* Styles here */
-  </style>
-  <h2>Hello!</h2>
-</template>
-<script>
-    const template = doc.querySelector('template#awesome');
-    class AwesomeElement extends HTMLElement {
-        // Code here
-    }
-    customElements.define('awesome-element', AwesomeElement);
-</script>
+        <!-- BEGIN Slide WebdriverIO code -->
+        <section data-background="../../common/img/background-orange-orig.jpg">
+            <h1>WebdriverIO Code</h1>
+            <pre><code class="javascript" data-trim="">
+it('can get text of an element', async function() {
+    const selector = 'shop-app shop-detail .description h2';
+    const expected = 'Description';
+    const url = '/detail/ladies_outerwear/LadiesFull+Zip'
+
+    await browser.url(url);
+    await browser.waitForText(selector);
+    assert.equal(await browser.getText(selector), expected);
+});
 </code></pre>
+            <aside class="notes">
+                A WebdriverIO test looks like this.
+            </aside>
         </section>
-        <!-- END Slide vanilla -->
+        <!-- END Slide WebdriverIO code -->
 
+        <section data-markdown data-separator-notes="^Note:" data-background="../../common/img/background-orange-orig.jpg">
+            # Confusion
 
-        <!-- BEGIN Slide Polymer -->
-        <section data-background="../../common/img/background-lightgreen-orig.jpg" data-separator="---">
-            <h1>Polymer Element</h1>
-            <pre><code data-trim="">
-<dom-module id="awesome">
-    <template>
-      <h2>Hello!</h2>
-    </template>
-    <script>
-    class AwesomeElement extends Polymer.Element {
-        static get is() {
-            return 'awesome-element'
-        }
-        // Code here
-    }
-    customElements.define(AwesomeElement.is, AwesomeElement);
-    </script>
-</dom-module>
+            Acceptance Testing is often confused with End-to-End Testing
 
+            Acceptance Testing (or User Acceptance Testing) is a **phase** in the testing process
 
-</code></pre>
-        </section>
-        <!-- END Slide Polymer -->
+            E2E-Testing is a **means** to verify application behavior during Acceptance Test phase
 
-        <section data-markdown="" data-background="../../common/img/background-lightgreen-orig.jpg"
-                 data-separator-notes="^Note:">
-            # Polymer sugar
+            Note:
+            So, let me clear something up. E2E-testing is not the same as Acceptance testing.
+            I've been guilty of confusing these two myself and have found it occurring everywhere.
 
-            - `dom-module`, `dom-repeat`, `dom-if`, `dom-bind` and `custom-style`
-            - PRPL pattern / Vulcanization
-            - Data binding
-            - Low-level Mixins
-            - Utilities such as `resolveUrl`
-            - Shadow DOM by default
+            E2E-testing is a method to test your Software. Acceptance Testing is a phase in your development lifecycle.
+            E2E-testing is often used in this phase, which is where the confusion comes from. Now you know this, you
+            will never say it wronly again! :)
         </section>
 
         <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
@@ -160,8 +156,6 @@
 
             Separates the DOM of a Custom Element from the main document or other elements
 
-            It was first used by browsers internally, for example in video players
-
             Because of the separation, styles do not leak
 
         </section>
@@ -170,10 +164,9 @@
                  data-separator-notes="^Note:">
             # Interaction
 
-            Encapsulation makes sure interaction with your element is done in two possible ways:
+            Encapsulation makes sure interaction with your element is done in two ways:
             - Light DOM
             - Style mixins and variables
-            - Javascript
 
             Note:
             We won't go deep into Javascript
@@ -183,7 +176,7 @@
         <section data-background="../../common/img/background-violet-orig.jpg">
             <h1>Light DOM</h1>
             <p>With light DOM you can add customization where the author intended it</p>
-            <pre><code data-trim>
+            <pre><code class="html" data-trim>
 <awesome-element>
     <span slot="title">Hello</span>
     <div slot="body">This is a news article</div>
@@ -227,7 +220,8 @@ my-awesome-element {
         </section>
 
 
-        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown="" data-separator-notes="^Note:">
+        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown=""
+                 data-separator-notes="^Note:">
             # Wdio-webcomponents
 
             > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with open Shadow Roots.
@@ -248,15 +242,21 @@ my-awesome-element {
             Selenium uses querySelector to find an element; Shadow DOMs prevent this
 
             ```
-            document.querySelector('my-awesome-element .shadow');
+            document.querySelector('my-shop my-detail-page');
             ```
             Above will not work, what is needed is:
             ```
-            document.querySelector('my-awesome-element')
-                    .shadowRoot.querySelector('.shadow');
+            document.querySelector('my-shop').shadowRoot
+                    .querySelector('my-detail-page');
             ```
+        </section>
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <img src="img/selectors_shop_failing.png" style="height: 68vh;">
+        </section>
 
-            ---
+
+        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown=""
+                 data-separator-notes="^Note:">
             # The solution
 
             Webdriver io plugin which:
@@ -266,79 +266,28 @@ my-awesome-element {
 
 
             Webdriverio (almost) completely like you're used to!
-
-            ---
-            # Pitfalls
-
-            Some selectors may have to be rewritten:
-
-            Light DOM actually belong to the element defining them, not the element in which it is slotted
+        </section>
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <img src="img/npm_page.png">
+        </section>
+        <section data-background="../../common/img/background-green-orig.jpg">
+            <img src="img/wdio-find-element.png">
         </section>
 
         <section data-background="../../common/img/background-green-orig.jpg">
-            <pre><code class="html" data-trim>
-<my-awesome-element>
-    #shadow-root
-        <my-awesome-nested-element>
-            #shadow-root
-                <p class="shadow">**Shadow DOM element**</p>
-                <slot></slot>
-            <!-- End nested shadow root -->
-
-            <p class="nested-light">light DOM element!</p>
-        </my-awesome-nested-element>
-    <!-- End top-level shadow root -->
-    <p class="light">This is a light DOM element!</p>
-</my-awesome-element>
-            </code></pre>
-            Shadow dom element:
-            <br/>
-            my-awesome-element my-awesome-nested-element .shadow
+            <img src="img/selectors_shop_working.png" style="height: 68vh;">
         </section>
-
         <section data-background="../../common/img/background-green-orig.jpg">
-            <pre><code class="html" data-trim>
-<my-awesome-element>
-    #shadow-root
-        <my-awesome-nested-element>
-            #shadow-root
-                <p class="shadow">Shadow DOM element</p>
-                <slot></slot>
-            <!-- End nested shadow root -->
-
-            <p class="nested-light">light DOM element!</p>
-        </my-awesome-nested-element>
-    <!-- End top-level shadow root -->
-    <p class="light">**This is a light DOM element!**</p>
-</my-awesome-element>
-            </code></pre>
-            Non-nested light DOM element:
-            <br/>
-            .shadow
+            <h1>Inspiration</h1>
+            <p>This library was inspired by ChadKillingsworth's solution</p>
+            <p>You can find a link to his post on Github or NPM</p>
         </section>
-
-
         <section data-background="../../common/img/background-green-orig.jpg">
-            <pre><code class="html" data-trim>
-<my-awesome-element>
-    #shadow-root
-        <my-awesome-nested-element>
-            #shadow-root
-                <p class="shadow">Shadow DOM element</p>
-                <slot></slot>
-            <!-- End nested shadow root -->
-
-            <p class="nested-light">**light DOM element**</p>
-        </my-awesome-nested-element>
-    <!-- End top-level shadow root -->
-    <p class="light">This is a light DOM element!</p>
-</my-awesome-element>
-            </code></pre>
-            Nested Light DOM element:
-            <br/>
-            my-awesome-element .shadow
+            <img src="img/chad.png" style="height: 68vh;">
         </section>
-
+        <section data-background="../../common/img/background-violet-orig.jpg">
+            <h1>Demo Time!</h1>
+        </section>
 
 
         <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
