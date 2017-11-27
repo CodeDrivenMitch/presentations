@@ -1,9 +1,9 @@
 # Contents
 
 - E2E testing
-- Webcomponents & Polymer
-- Shadow DOM internals
-- wdio-webcomponents
+- Shadow DOM
+- The Problem
+- The Solution
 - Questions & Discussion
 
 Note: 

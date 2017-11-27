@@ -56,6 +56,7 @@
                 ### When encapsulation hurts
 
                 Mitchell Herrijgers, codecentric NL
+                https://goo.gl/qvFhLr
             </script>
         </section>
 
@@ -82,7 +83,7 @@
             We do this to prevent errors that occur when all parts come together and don't fit correctly...
         </section>
         <section data-background="../../common/img/background-orange-orig.jpg">
-            <video src="img/integration_tests.mp4" autoplay loop></video>
+            <video src="img/e2e-polymer-shop-simple.webm" controls></video>
             <aside class="notes">
                 ... like in this small video. We see a door locked with a pretty nice lock. The unit tests of this lock
                 succeed with flying colors, as it locks like it has been designed to do.
@@ -93,11 +94,11 @@
                  data-separator="---" data-separator-notes="^Note:">
             # Tooling
 
-            ![Selenium logo](img/selenium-logo.png)
-
-            Selenium dominates open-source market for E2E-testing
+            Selenium dominates open-source market for web E2E-testing
 
             Wrappers such as _webdriver.io_ are high-level libraries that use Selenium
+
+            Tooling for E2E-testing non-browser applications are available
 
             Note:
             So what do we use to E2E-test web applications? Often it is Selenium. There are lots of libraries built on top if it to
@@ -106,7 +107,7 @@
 
         <!-- BEGIN Slide WebdriverIO code -->
         <section data-background="../../common/img/background-orange-orig.jpg">
-            <h1>WebdriverIO Code</h1>
+            <h1>Webdriver.io Code</h1>
             <pre><code class="javascript" data-trim="">
 it('can get text of an element', async function() {
     const selector = 'shop-app shop-detail .description h2';
@@ -142,6 +143,15 @@ it('can get text of an element', async function() {
             will never say it wronly again! :)
         </section>
 
+        <section data-markdown data-separator-notes="^Note:" data-background="../../common/img/background-orange-orig.jpg">
+            # Conclusion
+
+            E2E-testing is a means to verify application behavior
+
+            E2E test tools often use Selenium
+
+            Tools find elements in the page by using CSS selectors
+        </section>
         <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
                  data-separator-notes="^Note:">
             # Shadow DOM
@@ -219,25 +229,27 @@ my-awesome-element {
             </code></pre>
         </section>
 
+        <section data-markdown="" data-background="../../common/img/background-violet-orig.jpg"
+                 data-separator-notes="^Note:">
+            # Conclusion
+
+            Shadow DOMs are DOM trees which are fully encapsulated
+
+            CSS selectors have no effect on these DOMs
+
+            There are two ways to interact with Shadow DOM:
+            - Light DOM
+            - Style mixins and variables
+        </section>
+
 
         <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown=""
                  data-separator-notes="^Note:">
-            # Wdio-webcomponents
-
-            > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with open Shadow Roots.
-
-            ---
-            # Broken e2e tests
-
-            The upgrade to Polymer 2 broke our E2E-tests completely
-
-            wdio-webcomponents is my own solution
-
-            Note:
-            Bla
-
-            ---
             # The problem
+
+            >  [..] most end-to-end testing frameworks rely on [..] calls to querySelector. Elements in Shadow DOM are selectable by neither.
+
+            ---
 
             Selenium uses querySelector to find an element; Shadow DOMs prevent this
 
@@ -247,8 +259,12 @@ my-awesome-element {
             Above will not work, what is needed is:
             ```
             document.querySelector('my-shop').shadowRoot
-                    .querySelector('my-detail-page');
+            .querySelector('my-detail-page');
             ```
+            ---
+            # Broken e2e tests
+
+            The upgrade to Polymer 2 broke our E2E-tests completely
         </section>
         <section data-background="../../common/img/background-green-orig.jpg">
             <img src="img/selectors_shop_failing.png" style="height: 68vh;">
@@ -265,7 +281,13 @@ my-awesome-element {
             - Use this for further operations
 
 
-            Webdriverio (almost) completely like you're used to!
+            Webdriver.io (almost) completely like you're used to!
+
+            ---
+
+            # Wdio-webcomponents
+
+            > wdio-webcomponents is a webdriver.io plugin which makes webdriver compatible with open Shadow Roots.
         </section>
         <section data-background="../../common/img/background-green-orig.jpg">
             <img src="img/npm_page.png">
@@ -284,6 +306,14 @@ my-awesome-element {
         </section>
         <section data-background="../../common/img/background-green-orig.jpg">
             <img src="img/chad.png" style="height: 68vh;">
+        </section>
+        <section data-background="../../common/img/background-green-orig.jpg" data-separator="---" data-markdown=""
+                 data-separator-notes="^Note:">
+            # Conclusion
+
+            Shadow DOMs break Selenium
+
+            wdio-webcomponents is a Webdriver.io plugin that solves this
         </section>
         <section data-background="../../common/img/background-violet-orig.jpg">
             <h1>Demo Time!</h1>
